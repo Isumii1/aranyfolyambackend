@@ -1,7 +1,7 @@
 const db = require('../db/db')
 
 async function allProductsDb() {
-    const sql = 'SELECT * FROM products'
+    const sql = 'SELECT * FROM `products` INNER JOIN category ON products.category_id =category.category_id;'
     const [result] = await db.query(sql)
     return result || null
 }
