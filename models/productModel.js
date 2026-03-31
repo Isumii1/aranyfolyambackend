@@ -89,5 +89,4 @@ async function findByProductId(product_id) {
         return true
     } else return false
 }
-
-module.exports = { allProductsDb, addProductDb, deleteProductDb, updateProductDb, findByProduct, findByProductId }
+module.exports = { allProductsDb, addProductDb, deleteProductDb, updateProductDb, findByProduct, findByProductId}

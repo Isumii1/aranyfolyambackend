@@ -54,7 +54,7 @@ async function updateProduct(req, res) {
         if (!product_id) {
             return res.status(404).json({ error: 'Hiányzó termék azonosító!' })
         }
-
+        
         
         const exists = await findByProductId(product_id)
         if (!exists) {
@@ -67,7 +67,7 @@ async function updateProduct(req, res) {
                 return res.status(400).json({ error: 'Már található ilyen termék ezzel a névvel!' })
             }
         }
-
+        
         const product = await updateProductDb(
             req,
             res,
@@ -78,9 +78,9 @@ async function updateProduct(req, res) {
             product_stock,
             product_id
         )
-
+        
         return res.status(200).json({ message: 'Sikeresen módosítottad a terméket!' })
-
+        
     } catch (err) {
         return res.status(500).json({ error: 'Termékek szerver oldali hiba!', err })
     }

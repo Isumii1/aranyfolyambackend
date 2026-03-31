@@ -4,7 +4,8 @@ const {
     createOrder,
     addOrderItem,
     deleteOrder,
-    updateOrderStatus
+    updateOrderStatus,
+    removeStock
 } = require('../models/orderModel')
 
 async function allOrder(req, res) {
@@ -44,6 +45,7 @@ async function addOrder(req, res) {
                 item.quantity || item.order_count
             )
         }
+        await removeStock(items[0].product_id, items[0].quantity)
 
         res.status(201).json({ message: 'Rendelés sikeresen mentve', order_id })
     } catch (error) {

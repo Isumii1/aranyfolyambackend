@@ -71,11 +71,18 @@ async function updateOrderStatus(order_id, order_status) {
     await db.query(sql, [order_status, order_id]);
 }
 
+async function removeStock(product_id ,order_count) {
+    const sql = `UPDATE products SET product_stock=product_stock-${order_count} WHERE product_id = ${product_id}`;
+    console.log(sql);
+    await db.query(sql);
+}
+
 module.exports = {
     getAllOrdersDetailed,
     getUserOrdersDetailed,
     createOrder,
     addOrderItem,
     deleteOrder,
-    updateOrderStatus
+    updateOrderStatus,
+    removeStock
 }
