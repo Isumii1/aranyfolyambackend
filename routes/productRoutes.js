@@ -1,5 +1,5 @@
 const express = require('express')
-const { allProducts, addProduct, deleteProduct, updateProduct } = require('../controllers/productController')
+const { allProducts, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
 
 const { auth } = require('../middleware/userMiddleware')
 const { isAdmin } = require('../middleware/roleMiddleware')
