@@ -29,8 +29,7 @@ async function userOrders(req, res) {
 
 async function addOrder(req, res) {
     try {
-        const user_id = req.user.user_id
-        const { items } = req.body
+        const { user_id, items } = req.body
 
         if (!items || items.length === 0) {
             return res.status(400).json({ error: 'A kosár üres!' })
