@@ -29,7 +29,8 @@ async function userOrders(req, res) {
 
 async function addOrder(req, res) {
     try {
-        const { user_id, items } = req.body
+        const user_id = req.user ? req.user.user_id: req.body.user_id
+        const { items } = req.body
 
         if (!items || items.length === 0) {
             return res.status(400).json({ error: 'A kosár üres!' })
@@ -38,13 +39,14 @@ async function addOrder(req, res) {
         const order_id = await createOrder(user_id)
 
         for (const item of items) {
+            const qty = item.quantity || item.order_count
             await addOrderItem(
                 order_id, 
                 item.product_id, 
-                item.quantity || item.order_count
+                qty
             )
+            await removeStock(item.product_id, qty)
         }
-        await removeStock(items[0].product_id, items[0].quantity)
 
         res.status(201).json({ message: 'Rendelés sikeresen mentve', order_id })
     } catch (error) {
