@@ -6,6 +6,12 @@ async function findByEmail(user_email) {
     return result[0] || null
 }
 
+async function findByUsername(user_username) {
+    const sql = 'SELECT * FROM users WHERE user_username = ?'
+    const [result] = await db.query(sql, [user_username])
+    return result[0] || null
+}
+
 async function createUser(user_username, user_email, hash) {
     const sql = 'INSERT INTO users(user_id, user_username, user_email, user_psw, user_role) VALUES (NULL, ?, ?, ?,"user")'
     const [result] = await db.query(sql, [user_username, user_email, hash])
@@ -28,4 +34,4 @@ async function deleteUser(user_id) {
     return result.affectedRows
 }
 
-module.exports = { findByEmail, createUser, editUser, deleteUser }
+module.exports = { findByEmail, createUser, editUser, deleteUser, findByUsername }
