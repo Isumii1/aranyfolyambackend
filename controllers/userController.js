@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { findByEmail, createUser, editUser, deleteUser } = require('../models/userModel')
+const { findByEmail, findByUsername, createUser, editUser, deleteUser } = require('../models/userModel')
 const { config } = require('../config/dotenvConfig')
 
 // cookie beállítások
@@ -49,14 +49,14 @@ async function login(req, res) {
 
         const exists = await findByEmail(user_email)
         // console.log(exists);
-        if(!exists){
+        if (!exists) {
             return res.status(401).json({ error: 'Hibásan megadott email/jelszó.' })
         }
         const ok = await bcrypt.compare(user_psw, exists.user_psw)
         if (!ok) {
             return res.status(401).json({ error: 'Hibásan megadott email/jelszó.' })
         }
-       
+
         const token = jwt.sign(
             { user_id: exists.user_id, user_email: exists.user_email, user_username: exists.user_username, user_role: exists.user_role },
             config.JWT_SECRET,
@@ -67,7 +67,7 @@ async function login(req, res) {
         return res.status(200).json({ message: 'Sikeres bejelentkezés!' })
 
     } catch (err) {
-        return res.status(500).json({ error: 'Bejelentkezési szerver oldali hiba!', err})
+        return res.status(500).json({ error: 'Bejelentkezési szerver oldali hiba!', err })
     }
 }
 
@@ -76,7 +76,7 @@ async function whoAmI(req, res) {
     try {
         const { user_id, user_username, user_email, user_role } = req.user
         //console.log(user_id, user_username, user_email, user_role);
-        return res.status(200).json({ user_id: user_id, user_username: user_username, user_email: user_email, user_role:user_role  })
+        return res.status(200).json({ user_id: user_id, user_username: user_username, user_email: user_email, user_role: user_role })
     } catch (err) {
         return res.status(500).json({ error: 'whoAmI szerver oldali hiba!' })
     }
@@ -116,6 +116,13 @@ async function editProfil(req, res) {
             const emailExists = await findByEmail(user_email)
             if (emailExists && emailExists.user_id !== user_id) {
                 return res.status(409).json({ error: "Ez az email már foglalt!" })
+            }
+        }
+
+        if (user_username && user_username !== currentUser.user_username) {
+            const usernameExists = await findByUsername(user_username)
+            if (usernameExists && usernameExists.user_id !== user_id) {
+                return res.status(409).json({ error: "Ez a felhasználónév már foglalt!" })
             }
         }
 
