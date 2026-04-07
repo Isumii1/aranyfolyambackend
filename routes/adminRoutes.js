@@ -6,8 +6,8 @@ const { isAdmin } = require('../middleware/roleMiddleware')
 
 const router = express.Router()
 
-router.get('/users', allUsersByAdmin)
-router.delete('/delete/user/:user_id', deleteUserByAdmin)
-router.put('/update/user/:user_id', updateUserByAdmin)
+router.get('/users',auth,isAdmin, allUsersByAdmin)
+router.delete('/delete/user/:user_id',auth,isAdmin, deleteUserByAdmin)
+router.put('/update/user/:user_id',auth,isAdmin, updateUserByAdmin)
 
 module.exports = router
