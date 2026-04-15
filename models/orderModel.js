@@ -11,7 +11,8 @@ async function getAllOrdersDetailed() {
             products.product_id,
             products.product_name,
             products.product_price,
-            order_items.order_count
+            order_items.order_count,
+            products.product_image
         FROM orders
         LEFT JOIN users ON orders.user_id = users.user_id
         LEFT JOIN order_items ON orders.order_id = order_items.order_id
@@ -32,7 +33,8 @@ async function getUserOrdersDetailed(user_id) {
             products.product_id,
             products.product_name,
             products.product_price,
-            order_items.order_count
+            order_items.order_count,
+            products.product_image
         FROM orders
         LEFT JOIN users ON orders.user_id = users.user_id
         LEFT JOIN order_items ON orders.order_id = order_items.order_id

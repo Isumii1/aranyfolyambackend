@@ -1,6 +1,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const path = require("path");
 
 const app = express()
 
@@ -22,6 +23,7 @@ app.use('/admin', adminRoutes)
 app.use('/product', productRoutes)
 app.use('/category', categoryRoutes)
 app.use('/orders', orderRoutes)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // teszt
 module.exports = app
