@@ -1,92 +1,89 @@
-const db = require('../db/db')
+const db = require("../db/db");
 
 async function allProductsDb() {
-    const sql = 'SELECT * FROM `products` INNER JOIN category ON products.category_id =category.category_id;'
-    const [result] = await db.query(sql)
-    return result || null
+    const sql =
+        "SELECT * FROM `products` INNER JOIN category ON products.category_id = category.category_id";
+    const [result] = await db.query(sql);
+    return result || [];
 }
 
 async function addProductDb(category_id, product_name, product_price, product_image, product_stock) {
-    const sql = 'INSERT INTO `products`(`product_id`, `category_id`, `product_name`, `product_price`, `product_image`, `product_stock`) VALUES (NULL,?,?,?,?,?)'
-    const [result] = await db.query(sql, [category_id, product_name, product_price, product_image, product_stock])
-    return result || null
+    const sql =
+        "INSERT INTO `products` (`product_id`, `category_id`, `product_name`, `product_price`, `product_image`, `product_stock`) VALUES (NULL, ?, ?, ?, ?, ?)";
+    const [result] = await db.query(sql, [
+        category_id,
+        product_name,
+        product_price,
+        product_image,
+        product_stock
+    ]);
+    return result || null;
 }
 
 async function deleteProductDb(product_id) {
-    const sql = 'DELETE FROM `products` WHERE `product_id` = ?'
-    const [result] = await db.query(sql, [product_id])
-    return result || null
+    const sql = "DELETE FROM `products` WHERE `product_id` = ?";
+    const [result] = await db.query(sql, [product_id]);
+    return result || null;
 }
 
-async function updateProductDb(req,res,category_id, product_name, product_price, product_image, product_stock, product_id) {
+async function updateProductDb(res, updates, product_id) {
+    let sql = "UPDATE `products` SET ";
+    const fields = [];
+    const values = [];
 
-    let sql = 'UPDATE `products` SET '
-    let fields = []
-    let values = []
-
-    if (!isNaN(category_id)) {
-        if (category_id >= 0) {
-            fields.push('`category_id` = ?')
-            values.push(category_id)
-        } else return res.status(404).json({ error: 'Nem található ilyen kategória.' })
+    if (updates.category_id !== undefined) {
+        fields.push("`category_id` = ?");
+        values.push(updates.category_id);
     }
 
-    if (product_name) {
-        fields.push('`product_name` = ?')
-        values.push(product_name)
-    }
-    // console.log(product_price > 0);
-    if (!isNaN(product_price)) {
-        if (product_price > 0) {
-            fields.push('`product_price` = ?')
-            values.push(product_price)
-        } else {
-            return res.status(404).json({ error: 'Az összegnek nagyobbnak kell lennie, mint nulla.' })
-            
-        }
+    if (updates.product_name !== undefined) {
+        fields.push("`product_name` = ?");
+        values.push(updates.product_name);
     }
 
-    if (product_image) {
-        fields.push('`product_image` = ?')
-        values.push(product_image)
+    if (updates.product_price !== undefined) {
+        fields.push("`product_price` = ?");
+        values.push(updates.product_price);
     }
 
-    if (!isNaN(product_stock)) {
-        if (product_stock >= 0) {
-            fields.push('`product_stock` = ?')
-            values.push(product_stock)
-        } else {
-            return res.status(400).json({ error: 'A darabszám nem lehet negatív.' })
-        }
+    if (updates.product_image !== undefined) {
+        fields.push("`product_image` = ?");
+        values.push(updates.product_image);
+    }
+
+    if (updates.product_stock !== undefined) {
+        fields.push("`product_stock` = ?");
+        values.push(updates.product_stock);
     }
 
     if (fields.length === 0) {
-        return 0
+        return 0;
     }
 
-    sql += fields.join(', ') + ' WHERE `product_id` = ?'
-    values.push(product_id)
+    sql += fields.join(", ") + " WHERE `product_id` = ?";
+    values.push(product_id);
 
-    // console.log(sql);
-    const [result] = await db.query(sql, values)
-    return result.affectedRows
+    const [result] = await db.query(sql, values);
+    return result.affectedRows;
 }
 
 async function findByProduct(product_name) {
-    // console.log(product_name);
-    const sql = 'SELECT * FROM `products` WHERE `product_name` = ?'
-    const [result] = await db.query(sql, [product_name])
-    if (result.length > 0) {
-        return true
-    } else return false
+    const sql = "SELECT * FROM `products` WHERE `product_name` = ?";
+    const [result] = await db.query(sql, [product_name]);
+    return result.length > 0 ? result[0] : null;
 }
 
 async function findByProductId(product_id) {
-    // console.log(product_id);
-    const sql = 'SELECT * FROM `products` WHERE `product_id` = ?'
-    const [result] = await db.query(sql, [product_id])
-    if (result.length > 0) {
-        return true
-    } else return false
+    const sql = "SELECT * FROM `products` WHERE `product_id` = ?";
+    const [result] = await db.query(sql, [product_id]);
+    return result.length > 0 ? result[0] : null;
 }
-module.exports = { allProductsDb, addProductDb, deleteProductDb, updateProductDb, findByProduct, findByProductId}
+
+module.exports = {
+    allProductsDb,
+    addProductDb,
+    deleteProductDb,
+    updateProductDb,
+    findByProduct,
+    findByProductId
+};
