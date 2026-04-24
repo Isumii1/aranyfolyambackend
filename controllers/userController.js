@@ -7,7 +7,7 @@ const { config } = require('../config/dotenvConfig')
 const cookieOpts = {
     httpOnly: true,
     secure: true, // https-nél true
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
     maxAge: 1000 * 60 * 60 * 24 * 7
 }
