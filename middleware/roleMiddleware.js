@@ -1,5 +1,5 @@
 const isAdmin = (req, res, next) => {
-  console.log(req.user.user_role);
+  console.log(`req.user.user.role: ${req.user.user_role}`);
   if (req.user.user_role === "user") {
    
     return res.status(403).json({ message: 'Nincs jogosultság!' })
