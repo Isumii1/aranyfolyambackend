@@ -82,7 +82,7 @@ A projekt MySQL adatbázist használ.
 
 https://drawsql.app/teams/bravo-16/diagrams/aranyfolyam
 
-!(https://snipboard.io/mpjPiM.jpg)
+![drawsql](https://snipboard.io/mpjPiM.jpg)
 
 ### 🧩 Táblák
 
