@@ -221,13 +221,13 @@ http://localhost:3000
 
 ---
 
-### 🛒 Ügyletek
+### 🛒 Rendelések
 
 | Metódus | Endpoint        | Leírás         |
 | ------- | --------------- | -------------- |
-| POST    | /api/orders     | Új ügylet      |
-| GET     | /api/orders     | Saját ügyletek |
-| GET     | /api/orders/:id | Egy ügylet     |
+| POST    | /api/orders     | Új rendelés    |
+| GET     | /api/orders     | Saját rendelés |
+| GET     | /api/orders/:id | Egy rendelés   |
 
 ---
 
@@ -269,7 +269,6 @@ http://localhost:3000
 
 ## 🚀 Fejlesztési lehetőségek
 
-* Admin jogosultság middleware javítása
 * Order státuszok bővítése (pl. aktív, lejárt, kiváltott)
 * Fizetési rendszer integráció
 * Email értesítések
