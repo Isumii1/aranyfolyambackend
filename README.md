@@ -82,6 +82,8 @@ A projekt MySQL adatbázist használ.
 
 https://drawsql.app/teams/bravo-16/diagrams/aranyfolyam
 
+https://imgur.com/a/LiyJkfz
+
 ### 🧩 Táblák
 
 #### 👤 users
@@ -254,6 +256,14 @@ http://localhost:3000
 | cookie-parser | Cookie kezelés      |
 | validator     | Validáció           |
 | nodemon       | Fejlesztői eszköz   |
+
+---
+
+## 🎮 Tesztelés 
+
+```bash
+https://documenter.getpostman.com/view/48099737/2sBXqJJfow#6f7fe955-68aa-4e9d-8b98-6595b6f63b3a
+```
 
 ---
 
